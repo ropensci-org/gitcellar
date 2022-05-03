@@ -40,3 +40,7 @@ current directory (or the directory you input via the argument
 `dest_folder`). It might seem wasteful to create one archive per
 repository as opposed to one archive of all repositories but in our
 experience it prevents failures.
+
+After this step, you can use the tool of your choice to upload the
+backups to a cloud service like Digital Ocean, AWS, etc. You could run
+the code once a week and keep 8 weeks of backups on a rolling basis.
