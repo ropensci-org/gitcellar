@@ -26,7 +26,7 @@ remotes::install_github("ropensci-org/gitcellar")
 ## Example
 
 This is a basic example which shows you how to download archives of all
-repositories in an organization:
+repositories in an organization (of which you are an owner):
 
 ``` r
 library(gitcellar)
