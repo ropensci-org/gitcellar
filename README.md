@@ -11,7 +11,9 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 The goal of gitcellar is to help you download archives of all
-repositories in an organization.
+repositories in an organization. For context see the blog post
+[Safeguards and Backups for GitHub
+Organizations](https://ropensci.org/blog/2022/03/22/safeguards-and-backups-for-github-organizations/).
 
 ## Installation
 
