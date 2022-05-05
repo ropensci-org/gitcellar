@@ -32,7 +32,7 @@ repositories in an organization (of which you are an owner):
 
 ``` r
 library(gitcellar)
-download_organization_repos(organization = "maelle-test")
+download_organization_repos(organizations = "maelle-test")
 ```
 
 The archives (`<org-name>_<repo-name>_migration_archive.tar.gz`) will be

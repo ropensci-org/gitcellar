@@ -38,7 +38,7 @@ This is a basic example which shows you how to download archives of all reposito
 
 ```{r example, eval=FALSE}
 library(gitcellar)
-download_organization_repos(organization = "maelle-test")
+download_organization_repos(organizations = "maelle-test")
 ```
 
 The archives (`<org-name>_<repo-name>_migration_archive.tar.gz`) will be saved in distinct folders (`archive-<org-name>_<repo-name>`) under the current directory (or the directory you input via the argument `dest_folder`).
