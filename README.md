@@ -38,11 +38,11 @@ download_organization_repos(organization = "maelle-test")
 The archives (`<org-name>_<repo-name>_migration_archive.tar.gz`) will be
 saved in distinct folders (`archive-<org-name>_<repo-name>`) under the
 current directory (or the directory you input via the argument
-`dest_folder` \<- DOES NOT WORK YET). It might seem wasteful to create
-one archive per repository as opposed to one archive of all repositories
-but in our experience it prevents failures. Then, the reason to store
-one archive per *folder* is due to the fact that it worked better with
-the tool we used for uploading the archive to a cloud service.
+`dest_folder`). It might seem wasteful to create one archive per
+repository as opposed to one archive of all repositories but in our
+experience it prevents failures. Then, the reason to store one archive
+per *folder* is due to the fact that it worked better with the tool we
+used for uploading the archive to a cloud service.
 
 After this step, you can use the tool of your choice to upload the
 backups to a cloud service like Digital Ocean, AWS, etc. You could run

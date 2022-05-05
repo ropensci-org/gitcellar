@@ -23,6 +23,9 @@ download_organization_repos <- function(organization = NULL,
   extra_repos = NULL,
   dest_folder = getwd()) {
 
+  if (!dir.exists(dest_folder)) dir.create(dest_folder)
+  withr::local_dir(dest_folder)
+
   repo_names <- gh::gh(
     "/orgs/{org}/repos",
     org = organization,
