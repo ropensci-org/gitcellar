@@ -49,7 +49,7 @@ download_organization_repos <- function(organizations = NULL,
     ready_repos <- repos[status == "exported"]
     purrr::walk(ready_repos, function(repo) repo$launch_download())
     repos <- repos[status != "exported"]
-    if (length(repos) > 0) message(sprintf("Still not saved: %s", repos))
+    if (length(repos) > 0) message(sprintf("Still not saved: %s", purrr::map_chr(repos, function(x) x$name)))
   }
 
   leftover <- purrr::map_chr(repos, function(x) x$name)
