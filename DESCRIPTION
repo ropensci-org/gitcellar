@@ -6,7 +6,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-2815-0399")),
     person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = "aut")
   )
-Description: Provide functionality to download archives for all repositories in a GitHub organization.
+Description: Provide functionality to download archives (backups) for all repositories in a GitHub organization.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
