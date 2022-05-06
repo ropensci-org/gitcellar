@@ -5,15 +5,15 @@
 \title{Download archives of GitHub repositories within an organization}
 \usage{
 download_organization_repos(
-  organization = NULL,
+  organizations = NULL,
   extra_repos = NULL,
   dest_folder = getwd()
 )
 }
 \arguments{
-\item{organization}{Organization name}
+\item{organizations}{Organization name(s) (vector)}
 
-\item{extra_repos}{Vector of extra repository names}
+\item{extra_repos}{Named vector of extra repository names where names are organization names.}
 
 \item{dest_folder}{Where to save the folders with the archives.}
 }
@@ -30,6 +30,6 @@ of private repositories, while using a GitHub Personal Access Token with no scop
 }
 \examples{
 \dontrun{
-download_organization_repos("maelle-test")
+download_organization_repos(c("maelle-test", "maelle-test"))
 }
 }
