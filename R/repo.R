@@ -24,7 +24,7 @@ repo <- R6::R6Class("repo",
       Sys.sleep(3)
       handle <- curl::handle_setheaders(
         curl::new_handle(followlocation = FALSE),
-        "Authorization" = paste("token", Sys.getenv("GITHUB_PAT")),
+        "Authorization" = paste("token", Sys.getenv("GITHUB_PAT", gh::gh_token())),
         "Accept" = "application/vnd.github.v3+json"
       )
 
