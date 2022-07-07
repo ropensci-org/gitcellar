@@ -15,7 +15,7 @@ repositories in an organization. For context see the blog post
 [Safeguards and Backups for GitHub
 Organizations](https://ropensci.org/blog/2022/03/22/safeguards-and-backups-for-github-organizations/).
 
-## Installation
+## Installation & setup
 
 You can install the development version of gitcellar from
 [GitHub](https://github.com/) with:
@@ -24,6 +24,9 @@ You can install the development version of gitcellar from
 # install.packages("remotes")
 remotes::install_github("ropensci-org/gitcellar")
 ```
+
+You will need a GitHub Personal Access Token. See [gh docs on the
+topic](https://gh.r-lib.org/articles/managing-personal-access-tokens.html).
 
 ## Example
 
