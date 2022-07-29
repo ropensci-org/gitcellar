@@ -66,4 +66,4 @@ default the clone is not bare.
 You could think of the bare git repositories as a compressed version of
 the code in the sense that it contains all the information, and that you
 just need a few steps (cloning to another folder) to get to the actual
-repository content.
+repository content (including all its git history).
