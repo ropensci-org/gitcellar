@@ -56,8 +56,8 @@ the code once a week and keep 8 weeks of backups on a rolling basis.
 
 In the archive .tar.gz, you will find JSON files of metadata about the
 organizations (members for instance) and repositories (issues, pull
-requests) but also *bare git repositories*. [Bare git
-repositories](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/What-is-a-bare-git-repository)
+requests) but also *bare git repositories*. A [bare git
+repository](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/What-is-a-bare-git-repository)
 is a git repository as it exists on a remote. All the code is in there
 but you cannot see it **until you clone the bare git repository to
 another folder** where you will be able to see the files because by
