@@ -10,8 +10,9 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![R-CMD-check](https://github.com/ropensci-org/gitcellar/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci-org/gitcellar/actions)
 <!-- badges: end -->
 
-The goal of gitcellar is to help you download archives of all
-repositories in an organization. For context see the blog post
+The goal of gitcellar is to help you download
+[archives](https://docs.github.com/en/repositories/archiving-a-github-repository/backing-up-a-repository)
+of all repositories in an organization. For context see the blog post
 [Safeguards and Backups for GitHub
 Organizations](https://ropensci.org/blog/2022/03/22/safeguards-and-backups-for-github-organizations/).
 
@@ -50,3 +51,19 @@ used for uploading the archive to a cloud service.
 After this step, you can use the tool of your choice to upload the
 backups to a cloud service like Digital Ocean, AWS, etc. You could run
 the code once a week and keep 8 weeks of backups on a rolling basis.
+
+### Where is the code?
+
+In the archive .tar.gz, you will find JSON files of metadata about the
+organizations (members for instance) and repositories (issues, pull
+requests) but also *bare git repositories*. [Bare git
+repositories](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/What-is-a-bare-git-repository)
+is a git repository as it exists on a remote. All the code is in there
+but you cannot see it **until you clone the bare git repository to
+another folder** where you will be able to see the files because by
+default the clone is not bare.
+
+You could think of the bare git repositories as a compressed version of
+the code in the sense that it contains all the information, and that you
+just need a few steps (cloning to another folder) to get to the actual
+repository content.
