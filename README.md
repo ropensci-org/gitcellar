@@ -61,7 +61,9 @@ repository](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and
 is a git repository as it exists on a remote. All the code is in there
 but you cannot see it **until you clone the bare git repository to
 another folder** where you will be able to see the files because by
-default the clone is not bare.
+default the clone is not bare. Or you can use
+[`gert::git_ls(<path-to-bare-repo>, ref = "<default-branch>")`](https://docs.ropensci.org/gert/reference/git_commit.html)
+to list files tracked in the bare git repository.
 
 You could think of the bare git repositories as a compressed version of
 the code in the sense that it contains all the information, and that you
