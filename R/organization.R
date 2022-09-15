@@ -26,6 +26,16 @@ download_organization_repos <- function(organizations = NULL,
   if (!dir.exists(dest_folder)) dir.create(dest_folder)
   withr::local_dir(dest_folder)
 
+  external_repos <- extra_repos[!names(extra_repos) %in% organizations]
+
+  if (length(external_repos) > 0) {
+    warning(
+      "The following repos belong to external organizations and have been ",
+      "dropped: ", paste(external_repos, collapse = ", ")
+    )
+    extra_repos <- setdiff(extra_repos, external_repos)
+  }
+
   repos <- purrr::map(organizations, launch_org_migrations, extra_repos = extra_repos) |>
     unlist(recursive = FALSE)
 
