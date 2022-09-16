@@ -4,7 +4,9 @@ Version: 0.0.0.9000
 Authors@R: c(
     person("Maëlle", "Salmon", , "maelle.salmon@yahoo.se", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2815-0399")),
-    person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = "aut")
+    person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = "aut"),
+    person("Hugo", "Gruson", role = "ctb",
+           comment = c(ORCID = "0000-0002-4094-1476"))
   )
 Description: Provide functionality to download archives (backups) for all repositories in a GitHub organization (useful for backups!).
 License: MIT + file LICENSE
