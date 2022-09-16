@@ -29,11 +29,10 @@ download_organization_repos <- function(organizations = NULL,
   external_repos <- extra_repos[!names(extra_repos) %in% organizations]
 
   if (length(external_repos) > 0) {
-    warning(
-      "The following repos belong to external organizations and have been ",
-      "dropped: ", toString(external_repos)
+    stop(
+      "The following repos belong to external organizations: ",
+      toString(external_repos)
     )
-    extra_repos <- setdiff(extra_repos, external_repos)
   }
 
   repos <- purrr::map(organizations, launch_org_migrations, extra_repos = extra_repos) |>
