@@ -7,6 +7,7 @@
 download_organization_repos(
   organizations = NULL,
   extra_repos = NULL,
+  keep = character(0),
   dest_folder = getwd()
 )
 }
@@ -14,6 +15,8 @@ download_organization_repos(
 \item{organizations}{Organization name(s) (vector)}
 
 \item{extra_repos}{Named vector of extra repository names where names are organization names.}
+
+\item{keep}{a character vector of what files to keep. If this vector is length zero, all repositories are kept.}
 
 \item{dest_folder}{Where to save the folders with the archives.}
 }
@@ -31,5 +34,6 @@ of private repositories, while using a GitHub Personal Access Token with no scop
 \examples{
 \dontrun{
 download_organization_repos(c("maelle-test", "maelle-test"))
+download_organization_repos("maelle-test", keep = "testy2") # only keep the testy2 repo
 }
 }
