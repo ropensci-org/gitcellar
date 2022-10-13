@@ -1,6 +1,6 @@
 # gitcellar 0.0.0.9000
 
-* Parameter `keep` allows users to define which repositories should be archived
+* Parameter `keep` allows users to define which repositories should be archived (#13, @zkamvar)
 
 * Asking for repositories from an external organization in `extra_repos` now 
   return an error (#10, @Bisaloo)
