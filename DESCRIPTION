@@ -8,8 +8,7 @@ Authors@R: c(
     person("Hugo", "Gruson", role = "ctb",
            comment = c(ORCID = "0000-0002-4094-1476"),
     person("Zhian N.", "Kamvar", role = "ctb",
-           comment = c(ORCID = "0000-0003-1458-7108"),
-    person())
+           comment = c(ORCID = "0000-0003-1458-7108")
   )
 Description: Provide functionality to download archives (backups) for all repositories in a GitHub organization (useful for backups!).
 License: MIT + file LICENSE
