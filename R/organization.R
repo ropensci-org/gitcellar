@@ -90,6 +90,11 @@ launch_org_migrations <- function(organization, extra_repos, keep = character(0)
     unique()
 
   if (length(keep)) {
+    bad_repos <- setdiff(keep, repo_names)
+    if (length(bad_repos)) {
+      msg <- "The following repositories were not present in %s: %s"
+      stop(sprintf(msg, organization, toString(bad_repos)))
+    }
     repo_names <- repo_names[repo_names %in% keep]
   }
 
