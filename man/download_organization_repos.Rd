@@ -25,6 +25,9 @@ Download archives of GitHub repositories within an organization
 }
 \details{
 You will need a \href{https://usethis.r-lib.org/articles/git-credentials.html}{GitHub Personal Access Token}.
+As long as you're an owner of the organisation you're trying to back up, absolutely no permissions are required for your PAT.
+You will only need to add the \code{repos} scope if you wish to automatically include private repositories in the list of repos to back up.
+Note however that there is a workaround using the \code{extra_repos} argument, as documented below.
 
 The reason why you might need \code{extra_repos} is if you want to download archives
 of private repositories, while using a GitHub Personal Access Token with no scope.
