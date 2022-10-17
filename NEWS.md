@@ -1,5 +1,7 @@
 # gitcellar 0.0.0.9000
 
+* Parameter `keep` allows users to define which repositories should be archived (#13, @zkamvar)
+
 * The README and function documentation include a note about the required 
   permissions for the GitHub PAT (#11, @Bisaloo)
 

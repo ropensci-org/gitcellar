@@ -2,6 +2,7 @@
 #'
 #' @param organizations Organization name(s) (vector)
 #' @param extra_repos Named vector of extra repository names where names are organization names.
+#' @param keep a character vector of what files to keep. If this vector is length zero, all repositories are kept.
 #' @param dest_folder Where to save the folders with the archives.
 #'
 #' @details
@@ -21,9 +22,11 @@
 #' @examples
 #' \dontrun{
 #' download_organization_repos(c("maelle-test", "maelle-test"))
+#' download_organization_repos("maelle-test", keep = "testy2") # only keep the testy2 repo
 #' }
 download_organization_repos <- function(organizations = NULL,
   extra_repos = NULL,
+  keep = character(0),
   dest_folder = getwd()) {
 
   if (!dir.exists(dest_folder)) dir.create(dest_folder)
@@ -38,7 +41,7 @@ download_organization_repos <- function(organizations = NULL,
     )
   }
 
-  repos <- purrr::map(organizations, launch_org_migrations, extra_repos = extra_repos) |>
+  repos <- purrr::map(organizations, launch_org_migrations, keep = keep, extra_repos = extra_repos) |>
     unlist(recursive = FALSE)
 
   repo_names <- purrr::map_chr(repos, function(x) x$name)
@@ -73,7 +76,7 @@ download_organization_repos <- function(organizations = NULL,
   )
 }
 
-launch_org_migrations <- function(organization, extra_repos) {
+launch_org_migrations <- function(organization, extra_repos, keep = character(0)) {
     repo_names <- gh::gh(
     "/orgs/{org}/repos",
     org = organization,
@@ -88,6 +91,15 @@ launch_org_migrations <- function(organization, extra_repos) {
     extra_repos[names(extra_repos) == organization]
   ) |>
     unique()
+
+  if (length(keep)) {
+    bad_repos <- setdiff(keep, repo_names)
+    if (length(bad_repos)) {
+      msg <- "The following repositories were not present in %s: %s"
+      stop(sprintf(msg, organization, toString(bad_repos)))
+    }
+    repo_names <- repo_names[repo_names %in% keep]
+  }
 
   message(sprintf("Launching archive creation for organization %s", organization))
   purrr::map(repo_names, repo$new, organization = organization)
