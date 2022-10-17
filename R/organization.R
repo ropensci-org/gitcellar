@@ -7,6 +7,9 @@
 #' @details
 #'
 #' You will need a [GitHub Personal Access Token](https://usethis.r-lib.org/articles/git-credentials.html).
+#' As long as you're an owner of the organisation you're trying to back up, absolutely no permissions are required for your PAT.
+#' You will only need to add the `repos` scope if you wish to automatically include private repositories in the list of repos to back up.
+#' Note however that there is a workaround using the `extra_repos` argument, as documented below.
 #'
 #' The reason why you might need `extra_repos` is if you want to download archives
 #' of private repositories, while using a GitHub Personal Access Token with no scope.
