@@ -60,6 +60,7 @@ download_organization_repos <- function(organizations = NULL,
   message(sprintf("%s archives to be saved.", length(repos)))
 
   while (length(repos) > 0 && time_spent(start_time = start_time) < 30) {
+    Sys.sleep(60)
     status <- purrr::map_chr(repos, function(repo) repo$migration_state)
     ready_repos <- repos[status == "exported"]
     purrr::walk(ready_repos, function(repo) repo$launch_download())
