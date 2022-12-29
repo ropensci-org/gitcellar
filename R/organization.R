@@ -59,16 +59,18 @@ download_organization_repos <- function(organizations = NULL,
 
   message(sprintf("%s archives to be saved.", length(repos)))
 
-  while (length(repos) > 0 && time_spent(start_time = start_time) < 120) {
+  while (length(repos) > 0 && time_spent(start_time = start_time) < 30) {
     status <- purrr::map_chr(repos, function(repo) repo$migration_state)
     ready_repos <- repos[status == "exported"]
     purrr::walk(ready_repos, function(repo) repo$launch_download())
     repos <- repos[status != "exported"]
-    if (length(repos) > 0) message(sprintf("Still not saved: %s", purrr::map_chr(repos, function(x) x$name)))
+    if (length(repos) > 0) message(sprintf("Still not saved: %s.", toString(purrr::map_chr(repos, ~.x[["name"]]))))
   }
 
-  leftover <- purrr::map_chr(repos, function(x) x$name)
-  if (length(leftover) > 0) message(sprintf("Left-over: %s", leftover))
+  if (length(repos) > 0) {
+    leftover <- toString(purrr::map_chr(repos, ~.x[["name"]]))
+    message(sprintf("Left-over: %s.", leftover))
+  }
 
   tibble::tibble(
     repos = repo_names,
