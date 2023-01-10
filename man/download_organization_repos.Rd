@@ -2,7 +2,7 @@
 % Please edit documentation in R/organization.R
 \name{download_organization_repos}
 \alias{download_organization_repos}
-\title{Download archives of GitHub repositories within an organization}
+\title{Download archives of GitHub repositories within an account}
 \usage{
 download_organization_repos(
   organizations = NULL,
@@ -12,20 +12,23 @@ download_organization_repos(
 )
 }
 \arguments{
-\item{organizations}{Organization name(s) (vector)}
+\item{organizations}{Account username(s) (vector)}
 
-\item{extra_repos}{Named vector of extra repository names where names are organization names.}
+\item{extra_repos}{Named vector of extra repository names where names are account names.}
 
 \item{keep}{a character vector of repository names to explicitly archive and download.
-If this vector is length zero, all organization repositories are archived and downloaded.}
+If this vector is length zero, all account repositories are archived and downloaded.}
 
 \item{dest_folder}{Where to save the folders with the archives.}
 }
 \description{
-Download archives of GitHub repositories within an organization
+Download archives of GitHub repositories within an account
 }
 \details{
 You will need a \href{https://usethis.r-lib.org/articles/git-credentials.html}{GitHub Personal Access Token}.
+
+If \code{organizations} is a personal account username, the PAT needs to be from that account.
+
 As long as you're an owner of the organisation you're trying to back up, absolutely no permissions are required for your PAT.
 You will only need to add the \code{repos} scope if you wish to automatically include private repositories in the list of repos to back up.
 Note however that there is a workaround using the \code{extra_repos} argument, as documented below.
