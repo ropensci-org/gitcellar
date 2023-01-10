@@ -2,7 +2,8 @@
 #'
 #' @param organizations Organization name(s) (vector)
 #' @param extra_repos Named vector of extra repository names where names are organization names.
-#' @param keep a character vector of what files to keep. If this vector is length zero, all repositories are kept.
+#' @param keep a character vector of repository names to explicitly archive and download.
+#' If this vector is length zero, all organization repositories are archived and downloaded.
 #' @param dest_folder Where to save the folders with the archives.
 #'
 #' @details

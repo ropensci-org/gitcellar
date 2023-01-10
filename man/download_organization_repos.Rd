@@ -16,7 +16,8 @@ download_organization_repos(
 
 \item{extra_repos}{Named vector of extra repository names where names are organization names.}
 
-\item{keep}{a character vector of what files to keep. If this vector is length zero, all repositories are kept.}
+\item{keep}{a character vector of repository names to explicitly archive and download.
+If this vector is length zero, all organization repositories are archived and downloaded.}
 
 \item{dest_folder}{Where to save the folders with the archives.}
 }
