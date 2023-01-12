@@ -1,14 +1,17 @@
-#' Download archives of GitHub repositories within an organization
+#' Download archives of GitHub repositories within an account
 #'
-#' @param organizations Organization name(s) (vector)
-#' @param extra_repos Named vector of extra repository names where names are organization names.
+#' @param organizations Account username(s) (vector)
+#' @param extra_repos Named vector of extra repository names where names are account names.
 #' @param keep a character vector of repository names to explicitly archive and download.
-#' If this vector is length zero, all organization repositories are archived and downloaded.
+#' If this vector is length zero, all account repositories are archived and downloaded.
 #' @param dest_folder Where to save the folders with the archives.
 #'
 #' @details
 #'
 #' You will need a [GitHub Personal Access Token](https://usethis.r-lib.org/articles/git-credentials.html).
+#'
+#' If `organizations` is a personal account username, the PAT needs to be from that account.
+#'
 #' As long as you're an owner of the organisation you're trying to back up, absolutely no permissions are required for your PAT.
 #' You will only need to add the `repos` scope if you wish to automatically include private repositories in the list of repos to back up.
 #' Note however that there is a workaround using the `extra_repos` argument, as documented below.
@@ -26,9 +29,11 @@
 #' download_organization_repos("maelle-test", keep = "testy2") # only keep the testy2 repo
 #' }
 download_organization_repos <- function(organizations = NULL,
-  extra_repos = NULL,
-  keep = character(0),
-  dest_folder = getwd()) {
+                                        extra_repos = NULL,
+                                        keep = character(0),
+                                        dest_folder = getwd()) {
+
+  user_types <- check_users(organizations)
 
   if (!dir.exists(dest_folder)) dir.create(dest_folder)
   withr::local_dir(dest_folder)
@@ -37,12 +42,12 @@ download_organization_repos <- function(organizations = NULL,
 
   if (length(external_repos) > 0) {
     stop(
-      "The following repos belong to external organizations: ",
+      "The following repos belong to accounts you haven't listed: ",
       toString(external_repos)
     )
   }
 
-  repos <- purrr::map(organizations, launch_org_migrations, keep = keep, extra_repos = extra_repos) |>
+  repos <- purrr::map2(organizations, user_types, launch_org_migrations, keep = keep, extra_repos = extra_repos) |>
     unlist(recursive = FALSE)
 
   repo_names <- purrr::map_chr(repos, function(x) x$name)
@@ -80,19 +85,30 @@ download_organization_repos <- function(organizations = NULL,
   )
 }
 
-launch_org_migrations <- function(organization, extra_repos, keep = character(0)) {
-    repo_names <- gh::gh(
-    "/orgs/{org}/repos",
-    org = organization,
-    type = "all",
-    per_page = 100,
-    .limit = Inf
-  ) |>
-    purrr::map_chr("name")
+launch_org_migrations <- function(username, user_type, extra_repos, keep = character(0)) {
+  repo_names <- if (user_type == "organization") {
+    gh::gh(
+      "/orgs/{org}/repos",
+      org = username,
+      type = "all",
+      per_page = 100,
+      .limit = Inf
+    ) |>
+      purrr::map_chr("name")
+  } else {
+    gh::gh(
+      "/users/{user}/repos",
+      user = username,
+      type = "all",
+      per_page = 100,
+      .limit = Inf
+    ) |>
+      purrr::map_chr("name")
+  }
 
   repo_names <- c(
     repo_names,
-    extra_repos[names(extra_repos) == organization]
+    extra_repos[names(extra_repos) == username]
   ) |>
     unique()
 
@@ -100,12 +116,39 @@ launch_org_migrations <- function(organization, extra_repos, keep = character(0)
     bad_repos <- setdiff(keep, repo_names)
     if (length(bad_repos)) {
       msg <- "The following repositories were not present in %s: %s"
-      stop(sprintf(msg, organization, toString(bad_repos)))
+      stop(sprintf(msg, username, toString(bad_repos)))
     }
     repo_names <- repo_names[repo_names %in% keep]
   }
 
-  message(sprintf("Launching archive creation for organization %s", organization))
-  purrr::map(repo_names, repo$new, organization = organization)
+  message(sprintf("Launching archive creation for username %s", username))
+  purrr::map(repo_names, repo$new, organization = username, user_type = user_type)
 
+}
+
+check_user <- function(username) {
+  org <- try(
+    gh::gh("/orgs/{org}", org = username),
+    silent = TRUE
+  )
+  if (!inherits(org, "try-error")) {
+    return("organization")
+  }
+
+  user <- try(
+    gh::gh("/users/{user}", user = username),
+    silent = TRUE
+  )
+  if (!inherits(user, "try-error")) {
+    return("user")
+  }
+
+  rlang::abort(
+    sprintf("Could not find organization or user '%s'.", username)
+  )
+
+}
+
+check_users <- function(usernames) {
+  purrr::map_chr(usernames, check_user)
 }
