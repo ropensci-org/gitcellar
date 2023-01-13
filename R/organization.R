@@ -77,6 +77,8 @@ download_organization_repos <- function(organizations = NULL,
   if (length(repos) > 0) {
     leftover <- toString(purrr::map_chr(repos, ~.x[["name"]]))
     message(sprintf("Left-over: %s.", leftover))
+  } else {
+    leftover <- NULL
   }
 
   tibble::tibble(
