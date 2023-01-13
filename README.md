@@ -8,6 +8,7 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/ropensci-org/gitcellar/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci-org/gitcellar/actions)
+[![R-CMD-check](https://github.com/ropensci-org/gitcellar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci-org/gitcellar/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of gitcellar is to help you download
