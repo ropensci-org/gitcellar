@@ -44,11 +44,20 @@ repo <- R6::R6Class("repo",
       final_url <- headers$location
       archive_folder <- sprintf("archive-%s_%s", self$organization, self$name)
       fs::dir_create(archive_folder)
-      curl::curl_download(
-        final_url,
-        file.path(archive_folder, sprintf("%s_%s_migration_archive.tar.gz", self$organization, self$name))
+      try <- try(
+        curl::curl_download(
+          final_url,
+          file.path(archive_folder, sprintf("%s_%s_migration_archive.tar.gz", self$organization, self$name))
+        ),
+        silent = TRUE
       )
-      self$downloaded <- TRUE
+      if (inherits(try, "try-error")) {
+        self$downloaded <- FALSE
+        message("Download failed!")
+      } else {
+        self$downloaded <- TRUE
+      }
+
     }
   ),
   active = list(migration_state = function() {
