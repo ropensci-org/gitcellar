@@ -105,6 +105,7 @@ launch_org_migrations <- function(username, user_type, extra_repos, keep = chara
       per_page = 100,
       .limit = Inf
     ) |>
+      purrr::keep(\(x) startsWith(x[["full_name"]], sprintf("%s/", username))) |>
       purrr::map_chr("name")
   }
 
