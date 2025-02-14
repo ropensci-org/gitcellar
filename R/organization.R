@@ -129,26 +129,8 @@ launch_org_migrations <- function(username, user_type, extra_repos, keep = chara
 }
 
 check_user <- function(username) {
-  org <- try(
-    gh::gh("/orgs/{org}", org = username),
-    silent = TRUE
-  )
-  if (!inherits(org, "try-error")) {
-    return("organization")
-  }
-
-  user <- try(
-    gh::gh("/users/{user}", user = username),
-    silent = TRUE
-  )
-  if (!inherits(user, "try-error")) {
-    return("user")
-  }
-
-  rlang::abort(
-    sprintf("Could not find organization or user '%s'.", username)
-  )
-
+  info <- gh::gh("/users/{user}", user = username)
+  tolower(info[["type"]])
 }
 
 check_users <- function(usernames) {
