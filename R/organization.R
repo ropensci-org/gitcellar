@@ -28,11 +28,12 @@
 #' download_organization_repos(c("maelle-test", "maelle-test"))
 #' download_organization_repos("maelle-test", keep = "testy2") # only keep the testy2 repo
 #' }
-download_organization_repos <- function(organizations = NULL,
-                                        extra_repos = NULL,
-                                        keep = character(0),
-                                        dest_folder = getwd()) {
-
+download_organization_repos <- function(
+  organizations = NULL,
+  extra_repos = NULL,
+  keep = character(0),
+  dest_folder = getwd()
+) {
   user_types <- check_users(organizations)
 
   if (!dir.exists(dest_folder)) dir.create(dest_folder)
@@ -47,12 +48,20 @@ download_organization_repos <- function(organizations = NULL,
     )
   }
 
-  repos <- purrr::map2(organizations, user_types, launch_org_migrations, keep = keep, extra_repos = extra_repos) |>
+  repos <- purrr::map2(
+    organizations,
+    user_types,
+    launch_org_migrations,
+    keep = keep,
+    extra_repos = extra_repos
+  ) |>
     unlist(recursive = FALSE)
 
   repo_names <- purrr::map_chr(repos, function(x) x$name)
 
-  message("Waiting one minute for things to kick off properly before downloads...")
+  message(
+    "Waiting one minute for things to kick off properly before downloads..."
+  )
   Sys.sleep(60)
 
   start_time <- Sys.time()
@@ -71,11 +80,15 @@ download_organization_repos <- function(organizations = NULL,
     ready_repos <- repos[status == "exported"]
     purrr::walk(ready_repos, function(repo) repo$launch_download())
     repos <- repos[status != "exported"]
-    if (length(repos) > 0) message(sprintf("Still not saved: %s.", toString(purrr::map_chr(repos, ~.x[["name"]]))))
+    if (length(repos) > 0)
+      message(sprintf(
+        "Still not saved: %s.",
+        toString(purrr::map_chr(repos, ~ .x[["name"]]))
+      ))
   }
 
   if (length(repos) > 0) {
-    leftover <- toString(purrr::map_chr(repos, ~.x[["name"]]))
+    leftover <- toString(purrr::map_chr(repos, ~ .x[["name"]]))
     message(sprintf("Left-over: %s.", leftover))
   } else {
     leftover <- NULL
@@ -87,7 +100,12 @@ download_organization_repos <- function(organizations = NULL,
   )
 }
 
-launch_org_migrations <- function(username, user_type, extra_repos, keep = character(0)) {
+launch_org_migrations <- function(
+  username,
+  user_type,
+  extra_repos,
+  keep = character(0)
+) {
   repo_names <- if (user_type == "organization") {
     gh::gh(
       "/orgs/{org}/repos",
@@ -105,7 +123,9 @@ launch_org_migrations <- function(username, user_type, extra_repos, keep = chara
       per_page = 100,
       .limit = Inf
     ) |>
-      purrr::keep(\(x) startsWith(x[["full_name"]], sprintf("%s/", username))) |>
+      purrr::keep(
+        \(x) startsWith(x[["full_name"]], sprintf("%s/", username))
+      ) |>
       purrr::map_chr("name")
   }
 
@@ -125,12 +145,29 @@ launch_org_migrations <- function(username, user_type, extra_repos, keep = chara
   }
 
   message(sprintf("Launching archive creation for username %s", username))
-  purrr::map(repo_names, repo$new, organization = username, user_type = user_type)
-
+  purrr::map(
+    repo_names,
+    repo$new,
+    organization = username,
+    user_type = user_type
+  )
 }
 
-check_user <- function(username) {
+check_user <- function(username, call = rlang::caller_env()) {
   info <- gh::gh("/users/{user}", user = username)
+
+  # check the case was correct
+  # https://github.com/ropensci-org/gitcellar/issues/25
+  if (info[["login"]] != username) {
+    cli::cli_abort(
+      c(
+        x = '{.arg username} {.val {username}} not equal to actual user name {.val {info[["login"]]}}',
+        i = "Please fix the case"
+      ),
+      call = call
+    )
+  }
+
   tolower(info[["type"]])
 }
 

@@ -6,3 +6,13 @@ test_that("external repos in `extra_repos` trigger an error", {
   )
 
 })
+
+test_that("wrong case triggers an error", {
+  skip_on_ci()
+  expect_snapshot(
+    download_organization_repos("MAELLE"),
+    error = TRUE
+  )
+
+})
+
